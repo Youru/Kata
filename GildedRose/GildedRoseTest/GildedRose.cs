@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 using NFluent;
+using GildedRose.Model;
+
 namespace GildedRoseTest
 {
     public class GildedRose

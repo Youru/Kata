@@ -40,6 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GildedRoseService.cs" />
+    <Compile Include="Items\CreatorFactory.cs" />
+    <Compile Include="Items\DefaultItem.cs" />
+    <Compile Include="Items\SulfurasItem.cs" />
+    <Compile Include="Items\AgedBrieItem.cs" />
+    <Compile Include="Items\BacstageItem.cs" />
+    <Compile Include="Items\ItemAbstract.cs" />
+    <Compile Include="Model\Item.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
