@@ -22,86 +22,92 @@ namespace GildedRose
         {
             foreach (var item in Items)
             {
-                if (item.Name != AGED_BRIE && item.Name != BACKSTAGE)
+                if (item.Name == SULFURAS)
+                    break;
+
+                if (item.Name == AGED_BRIE)
                 {
-                    if (item.Quality > MIN_DEFAULT_VALUE)
-                    {
-                        if (item.Name != SULFURAS)
-                        {
-                            item.Quality--;
-                        }
-                    }
+                    UpdateAgedBrieItem(item);
+                }
+                else if (item.Name == BACKSTAGE)
+                {
+                    UpdateBacstageItem(item);
                 }
                 else
                 {
-                    if (item.Quality < MAX_QUALITY_VALUE)
-                    {
-                        item.Quality++;
-
-                        if (item.Name == BACKSTAGE)
-                        {
-                            if (item.SellIn < SELLIN_FIRST_DEADLINE)
-                            {
-                                if (item.Quality < MAX_QUALITY_VALUE)
-                                {
-                                    item.Quality++;
-                                }
-                            }
-
-                            if (item.SellIn < SELLIN_SECOND_DEADLINE)
-                            {
-                                if (item.Quality < MAX_QUALITY_VALUE)
-                                {
-                                    item.Quality++;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (item.Name != SULFURAS)
-                {
-                    item.SellIn--;
-                }
-
-                if (item.SellIn < MIN_DEFAULT_VALUE)
-                {
-                    if (item.Name != AGED_BRIE)
-                    {
-                        if (item.Name != BACKSTAGE)
-                        {
-                            if (item.Quality > MIN_DEFAULT_VALUE)
-                            {
-                                if (item.Name != SULFURAS)
-                                {
-                                    item.Quality--;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            item.Quality = 0;
-                        }
-                    }
-                    else
-                    {
-                        if (item.Quality < MAX_QUALITY_VALUE)
-                        {
-                            item.Quality++;
-                        }
-                    }
+                    UpdateRandomItem(item);
                 }
             }
         }
+
+        private void UpdateAgedBrieItem(Item item)
+        {
+            item.Quality = GetNewQuality(item.Quality);
+
+            item.SellIn--;
+
+            if (item.SellIn < MIN_DEFAULT_VALUE)
+            {
+                item.Quality = GetNewQuality(item.Quality);
+            }
+        }
+
+        private void UpdateBacstageItem(Item item)
+        {
+            item.Quality = GetNewQuality(item.Quality);
+
+            if (item.Name == BACKSTAGE)
+            {
+                if (item.SellIn < SELLIN_FIRST_DEADLINE)
+                {
+                    item.Quality = GetNewQuality(item.Quality);
+                }
+
+                if (item.SellIn < SELLIN_SECOND_DEADLINE)
+                {
+                    item.Quality = GetNewQuality(item.Quality);
+                }
+
+            }
+
+            item.SellIn--;
+
+            if (item.SellIn < MIN_DEFAULT_VALUE)
+            {
+                item.Quality = 0;
+            }
+        }
+
+        private void UpdateRandomItem(Item item)
+        {
+            item.Quality--;
+            item.SellIn--;
+            if (item.SellIn < MIN_DEFAULT_VALUE)
+            {
+                if (item.Quality > MIN_DEFAULT_VALUE)
+                {
+                    item.Quality--;
+                }
+            }
+        }
+
+        private int GetNewQuality(int quality)
+        {
+            if (quality <  MAX_QUALITY_VALUE)
+            {
+                quality++;
+            }
+
+            return quality;
+        }
     }
+}
 
-    public class Item
-    {
-        public string Name { get; set; }
+public class Item
+{
+    public string Name { get; set; }
 
-        public int SellIn { get; set; }
+    public int SellIn { get; set; }
 
-        public int Quality { get; set; }
-    }
-
+    public int Quality { get; set; }
 }
